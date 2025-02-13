@@ -1,14 +1,18 @@
 <?php
 session_start();
-$first_name = $_REQUEST['fname'];
-$last_name = $_REQUEST['lname'];
+include "../database/env.php";
+$first_name = $_REQUEST['first_name'];
+$last_name = $_REQUEST['last_name'];
 $email = $_REQUEST['email'];
 $password = $_REQUEST['password'];
 $confirmPassword = $_REQUEST['confirmPassword'];
 $encPassword = password_hash($password,PASSWORD_BCRYPT);
-
 $errors = [];
 
+
+$sql = "SELECT * FROM users WHERE email = '$email'";
+$result = mysqli_query($conn, $sql);
+$users = mysqli_fetch_assoc($result); 
 // FIRST NAME VALIDATION
 if (empty($first_name)) {
   $errors['first_name'] = "Please enter your first name";
@@ -20,6 +24,12 @@ if (empty($email)) {
   $errors['email'] = "Please enter your email";
 } else if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
   $errors['email'] = "Invalid email format";
+} else {
+  $query = "SELECT email FROM users WHERE email = '$email'";
+  $result = mysqli_query($conn, $query);
+  if(($result -> num_rows > 0)){
+  $errors['email'] = "Email already exists";
+  }
 }
 // PASSWORD VALIDATION
 if (empty($password)) {
@@ -34,8 +44,8 @@ if (count($errors) > 0){
   $_SESSION ['errors'] = $errors;
   header('Location: ../register.php');
 } else{
+  
   // CONNECT TO DATABASE STORE
-  include "../database/env.php";
  $query = "INSERT INTO users(first_name, last_name, email, password) VALUES ('$first_name','$last_name','$email','$encPassword')";
  $result = mysqli_query($conn, $query);
 

@@ -1,14 +1,24 @@
 <?php 
+session_start();
 require "./database/env.php";
+
  // CONTACT INFO FETCH
- 
  $sql = "SELECT * FROM contact_info ORDER BY id DESC LIMIT 1";
- $result = $conn->query($sql);
+$result = mysqli_query($conn, $sql);
 if ($result->num_rows > 0) {
  $contactInfo = $result->fetch_assoc();
 } else {
  die("No contact information found!");
 }
+// BANNER IMG FETCH
+$query = "SELECT banner_heading, banner_para, banner_img FROM banners ";
+$resultBanner = mysqli_query($conn, $query);
+$getBanner = mysqli_fetch_assoc($resultBanner);
+// ABOUT US IMG FETCH
+$queryAbout = "SELECT about_title, about_middle,about_bottom, about_img,about_thumbnail FROM about_us ";
+$resultAbout = mysqli_query($conn, $queryAbout);
+$getAbout = mysqli_fetch_assoc($resultAbout);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

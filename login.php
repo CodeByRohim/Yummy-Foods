@@ -35,13 +35,13 @@ include_once "./inc/AuthHeader.php";
                                         </div>
                                         <span class="text-danger"><?= ($_SESSION['errors']['inpassword'] ?? '') . ($_SESSION['errors']['inemail'] ?? '') ?></span>
                                         
-                                        <div class="form-group">
+                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input  type="checkbox" class="custom-control-input" id="customCheck">
                                                 <label class="custom-control-label" for="customCheck">Remember
                                                     Me</label>
                                             </div>
-                                        </div>
+                                        </div> 
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>

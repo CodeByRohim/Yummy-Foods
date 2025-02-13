@@ -18,12 +18,12 @@
                             <form action="./controller/RegisterUserController.php" method="POST" class="user">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input name="fname" type="text" class="form-control <?= isset($_SESSION['errors']['first_name']) ? 'is-invalid' : ''?> form-control-user" id="exampleFirstName"
+                                        <input name="first_name" type="text" class="form-control <?= isset($_SESSION['errors']['first_name']) ? 'is-invalid' : ''?> form-control-user" id="exampleFirstName"
                                             placeholder="First Name">
                                             <span class="text-danger"><?= $_SESSION['errors']['first_name'] ?? '' ?></span>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input name="lname" type="text" class="form-control <?= isset($_SESSION['errors']['last_name']) ? 'is-invalid' : ''?> form-control-user" id="exampleLastName"
+                                        <input name="last_name" type="text" class="form-control <?= isset($_SESSION['errors']['last_name']) ? 'is-invalid' : ''?> form-control-user" id="exampleLastName"
                                             placeholder="Last Name">
                                     </div>
                                 </div>

@@ -1,4 +1,6 @@
-<?php include_once "./inc/FrontendHeader.php"?>
+<?php 
+include_once "./inc/FrontendHeader.php";
+?>
 
     <!-- Hero Section -->
     <section id="hero" class="hero section light-background">
@@ -6,15 +8,15 @@
       <div class="container">
         <div class="row gy-4 justify-content-center justify-content-lg-between">
           <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-            <h1 data-aos="fade-up">Enjoy Your Healthy<br>Delicious Food</h1>
-            <p data-aos="fade-up" data-aos-delay="100">We are team of talented designers making websites with Bootstrap</p>
+            <h1 data-aos="fade-up"><?= $getBanner['banner_heading']?><br></h1>
+            <p data-aos="fade-up" data-aos-delay="100"><?= $getBanner['banner_para']?></p>
             <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
               <a href="#book-a-table" class="btn-get-started">Booka a Table</a>
               <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
             </div>
           </div>
           <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
-            <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
+            <img src="<?= "./uploads/banner/" . $getBanner["banner_img"] ?>" class="img-fluid animated" alt="">
           </div>
         </div>
       </div>
@@ -34,30 +36,28 @@
 
         <div class="row gy-4">
           <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
-            <img src="assets/img/about.jpg" class="img-fluid mb-4" alt="">
+            <img src="<?= "./uploads/aboutimg/" . $getAbout['about_img'] ?>" class="img-fluid mb-4" alt="">
             <div class="book-a-table">
               <h3>Book a Table</h3>
-              <p>+1 5589 55488 55</p>
+              <p><a href="tel:<?= $contactInfo['phone'] ?? '' ?>"><?= $contactInfo['phone'] ?? '' ?></a></p>
             </div>
           </div>
           <div class="col-lg-5" data-aos="fade-up" data-aos-delay="250">
             <div class="content ps-0 ps-lg-5">
               <p class="fst-italic">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                magna aliqua.
+              <?=  $getAbout['about_title'] ?>
               </p>
               <ul>
-                <li><i class="bi bi-check-circle-fill"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
+                <li><i class="bi bi-check-circle-fill"></i> <span><?= $getAbout['about_middle'] ?></span></li>
                 <li><i class="bi bi-check-circle-fill"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
                 <li><i class="bi bi-check-circle-fill"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
               </ul>
               <p>
-                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
+              <?= $getAbout['about_bottom'] ?>
               </p>
 
               <div class="position-relative mt-4">
-                <img src="assets/img/about-2.jpg" class="img-fluid" alt="">
+                <img src="<?= "./uploads/aboutThumbnail/" . $getAbout['about_thumbnail'] ?>" class="img-fluid" alt="">
                 <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
               </div>
             </div>
@@ -824,35 +824,47 @@
           <div class="col-lg-4 reservation-img" style="background-image: url(assets/img/reservation.jpg);"></div>
 
           <div class="col-lg-8 d-flex align-items-center reservation-form-bg" data-aos="fade-up" data-aos-delay="200">
-            <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form">
+            <form action="./controller/BookTableUpdateController.php" method="POST" role="form" enctype="multipart/form-data" class="php-email-form">
               <div class="row gy-4">
                 <div class="col-lg-4 col-md-6">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required="">
+                  <input type="text" name="fullname" class="form-control <?= isset($_SESSION['errors']['fullname']) ? 'is-invalid' : '' ?>" id="name" placeholder="Your Name">
+                  <span class="text-danger"><?= $_SESSION['errors']['fullname']?? '' ?></span> 
+
                 </div>
                 <div class="col-lg-4 col-md-6">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required="">
+                  <input type="email" class="form-control <?= isset($_SESSION['errors']['email']) ? 'is-invalid' : '' ?>" name="email" id="email" placeholder="Your Email">
+                  <span class="text-danger"><?= $_SESSION['errors']['email']?? '' ?></span> 
+
                 </div>
                 <div class="col-lg-4 col-md-6">
-                  <input type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone" required="">
+                  <input type="text" class="form-control <?= isset($_SESSION['errors']['phone']) ? 'is-invalid' : '' ?>" name="phone" id="phone" placeholder="Your Phone">
+                  <span class="text-danger"><?= $_SESSION['errors']['phone'] ?? '' ?></span> 
+
                 </div>
                 <div class="col-lg-4 col-md-6">
-                  <input type="date" name="date" class="form-control" id="date" placeholder="Date" required="">
+                  <input type="date" name="date" class="form-control <?= isset($_SESSION['errors']['date']) ? 'is-invalid' : '' ?>" id="date" placeholder="Date">
+                  <span class="text-danger"><?= $_SESSION['errors']['date'] ?? '' ?></span> 
+
                 </div>
                 <div class="col-lg-4 col-md-6">
-                  <input type="time" class="form-control" name="time" id="time" placeholder="Time" required="">
+                  <input type="time" class="form-control <?= isset($_SESSION['errors']['time']) ? 'is-invalid' : '' ?>" name="time" id="time" placeholder="Time">
+                  <span class="text-danger"><?= $_SESSION['errors']['time'] ?? '' ?></span> 
+
                 </div>
                 <div class="col-lg-4 col-md-6">
-                  <input type="number" class="form-control" name="people" id="people" placeholder="# of people" required="">
+                  <input type="number" class="form-control <?= isset($_SESSION['errors']['people']) ? 'is-invalid' : '' ?>" name="people" id="people" placeholder="# of people" >
+                  <span class="text-danger"><?= $_SESSION['errors']['people'] ?? '' ?></span> 
                 </div>
               </div>
 
               <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
+                <textarea class="form-control <?= isset($_SESSION['errors']['message']) ? 'is-invalid' : '' ?>" name="message" rows="5" placeholder="Message"></textarea>
+                <span class="text-danger"><?= $_SESSION['errors']['message'] ?? '' ?></span> 
               </div>
 
               <div class="text-center mt-3">
                 <div class="loading">Loading</div>
-                <div class="error-message"></div>
+                <div class="error-message"><?= $_SESSION['success'] ?? '' ?></div>
                 <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
                 <button type="submit">Book a Table</button>
               </div>
@@ -1021,5 +1033,8 @@
 
     </section><!-- /Contact Section -->
 
-<?php include_once "./inc/FrontendFooter.php"?>
+<?php 
+include_once "./inc/FrontendFooter.php";
+unset($_SESSION['errors']);
+?>
   
