@@ -5,6 +5,7 @@ $about_title = $_REQUEST['about_title'];
 $about_middle = $_REQUEST['about_middle'];
 $about_bottom = $_REQUEST['about_bottom'];
 $about_thumbnail = $_FILES['about_thumbnail'];
+$video_url = $_REQUEST['video_url'];
 $_SESSION['about'] = $_REQUEST;
 $errors = [];
 
@@ -13,18 +14,22 @@ define('ALLOWED_EXTENSIONS', ['jpg', 'png', 'jpeg', 'webp']);
 $extension = pathinfo($about_img['name'])['extension'];
 $extension2 = pathinfo($about_thumbnail['name'])['extension'];
 
-// ABOUT US IMAGE VALIDATION 
+// ABOUT US IMAGE VALIDATION
+if($about_img['size'] > 0){ 
 if($about_img['size'] > MAX_UPLOAD_SIZE){
   $errors['about_img'] = "Image size is too large. Please upload image less than 2MB.";
 } else if(!in_array($extension, ALLOWED_EXTENSIONS)){
  $errors['about_img'] = "Invalid image format. Please upload image in" . implode(', ', ALLOWED_EXTENSIONS);
 }
+}
 
 // ABOUT US THUMBNAIL VALIDATION
+if($about_thumbnail['size'] > 0){
 if($about_thumbnail['size'] > MAX_UPLOAD_SIZE){
   $errors['about_thumbnail'] = "Image size is too large. Please upload image less than 2MB.";
 } else if(!in_array($extension2, ALLOWED_EXTENSIONS)){
   $errors['about_thumbnail'] = "Invalid image format. Please upload image in " . implode(',',ALLOWED_EXTENSIONS);
+}
 }
 
 // ABOUT US TITLE VALIDATION
@@ -57,7 +62,9 @@ if($about_img['size'] > 0){
   $isUpload = move_uploaded_file($about_img['tmp_name'], "../uploads/aboutimg/$filename");
   if(!$isUpload){
     $errors['about_error'] = "Failed to upload about image";
-  }
+  } 
+} else{
+  $query = "UPDATE about_us SET about_img='$about_img',about_title='$about_title',about_middle='$about_middle',about_bottom='$about_bottom',about_thumbnail='$about_thumbnail',video_url='$video_url' WHERE 1";
 }
 
 // Upload directory about img
@@ -70,17 +77,21 @@ $filename2 = 'about thumbnail' . ' ' . substr(uniqid(rand(),1),0,3)  . '.' . $ex
  $isUpload2 = move_uploaded_file($about_thumbnail['tmp_name'], "../uploads/aboutThumbnail/$filename2");
  if(!$isUpload2){
   $errors['about_thumbnail'] = "Failed to upload about thumbnail image";
- }
+ } 
+} else{
+  $query = "UPDATE about_us SET about_img='$about_img',about_title='$about_title',about_middle='$about_middle',about_bottom='$about_bottom',about_thumbnail='$about_thumbnail',video_url='$video_url' WHERE 1";
 }
+
+
 // IF ERRORS ARE FOUND
-if(!empty($errors)){
+if(count($errors) > 0){
   $_SESSION['errors'] = $errors;
   header('Location: ../dashboard/tables.php#about');
 }else {
 // CONNECT TO DATABASE STORE
 include_once "../database/env.php";
-$query = "INSERT INTO about_us (about_title, about_middle, about_img, about_bottom,about_thumbnail) VALUES ('$about_title', '$about_middle', '$filename', '$about_bottom', '$filename2')";
-// $query = "UPDATE about_us SET about_title='$about_title',about_middle ='$about_middle',about_bottom='$about_bottom',about_img='$filename',about_thumbnail='$filename2'";
+// $query = "INSERT INTO about_us (about_title, about_middle, about_img, about_bottom,about_thumbnail,video_url) VALUES ('$about_title', '$about_middle', '$filename', '$about_bottom', '$filename2', '$video_url')";
+$query = "UPDATE about_us SET about_title='$about_title',about_middle ='$about_middle',about_bottom='$about_bottom',about_img='$filename',about_thumbnail='$filename2',video_url='$video_url'";
 $result = mysqli_query($conn, $query);
 $_SESSION['about']['about_heading'] = $about_title;
 $_SESSION['about']['about_middle'] = $about_middle ;

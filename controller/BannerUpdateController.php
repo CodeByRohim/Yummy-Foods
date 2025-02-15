@@ -5,6 +5,7 @@ $max_upload_size = 1024 * 1024 * 2; // 2MB
 $extension = pathinfo($banner_img['name'])['extension'];
 $banner_heading = $_REQUEST['banner_heading'];
 $banner_para = $_REQUEST['banner_para'];
+$banner_url = $_REQUEST['banner_url'];
 $id = $_SESSION['banners']['id'];
 $_SESSION['banners'] = $_REQUEST;
 $errors = [];
@@ -36,7 +37,7 @@ if($banner_img['size'] > 0){
     $errors['banner_error'] = "Failed to upload banner image";
   }
 } else {
-  $query = "UPDATE banners SET banner_heading='$banner_heading',banner_para ='$banner_para' WHERE id='$id'";
+  $query = "UPDATE banners SET banner_heading='$banner_heading',banner_para ='$banner_para', banner_url = '$banner_url' WHERE id = '$id'";
 }
 
 // BANNER HEADING VALIDATION
@@ -63,12 +64,13 @@ if (count($errors) > 0){
   // CONNECT TO DATABASE STORE
   
   // $query = "INSERT INTO banners (banner_heading, banner_para, banner_img) VALUES ('$banner_heading', '$banner_para', '$filename')";
-  $query = "UPDATE banners SET banner_heading='$banner_heading',banner_para ='$banner_para',banner_img='$filename'";
+  $query = "UPDATE banners SET banner_heading='$banner_heading',banner_para ='$banner_para',banner_img='$filename',banner_url='$banner_url'";
   $result = mysqli_query($conn, $query);
   
   $_SESSION['banners']['banner_heading'] = $banner_heading;
   $_SESSION['banners']['banner_para'] = $banner_para ;
   $_SESSION['banners']['banner_img'] = $filename;
+  $_SESSION['banners']['banner_url'] = $banner_url;
   header("Location: ../index.php#banner");
   
 }

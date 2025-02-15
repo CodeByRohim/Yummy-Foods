@@ -11,15 +11,24 @@ if ($result->num_rows > 0) {
  die("No contact information found!");
 }
 // BANNER IMG FETCH
-$query = "SELECT banner_heading, banner_para, banner_img FROM banners ";
+$query = "SELECT banner_heading, banner_para, banner_img, banner_url FROM banners ";
 $resultBanner = mysqli_query($conn, $query);
 $getBanner = mysqli_fetch_assoc($resultBanner);
 // ABOUT US IMG FETCH
-$queryAbout = "SELECT about_title, about_middle,about_bottom, about_img,about_thumbnail FROM about_us ";
+$queryAbout = "SELECT about_title, about_middle,about_bottom, about_img, about_thumbnail, video_url FROM about_us ";
 $resultAbout = mysqli_query($conn, $queryAbout);
 $getAbout = mysqli_fetch_assoc($resultAbout);
+// STATS FETCH
+$queryStats = "SELECT id, clients, projects, support, workers, stats_img FROM stats ORDER BY id DESC LIMIT 1";
+$resultStats = mysqli_query($conn, $queryStats);
+$getStats = mysqli_fetch_assoc($resultStats);
+// MENU FETCH
+$queryMenu = "SELECT * FROM menu";
+$resultMenu = mysqli_query($conn, $queryMenu);
 
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

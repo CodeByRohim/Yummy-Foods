@@ -12,7 +12,7 @@ include_once "./inc/FrontendHeader.php";
             <p data-aos="fade-up" data-aos-delay="100"><?= $getBanner['banner_para']?></p>
             <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
               <a href="#book-a-table" class="btn-get-started">Booka a Table</a>
-              <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+              <a href="<?=  $getBanner["banner_url"] ?? ''?>" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
             </div>
           </div>
           <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
@@ -58,7 +58,7 @@ include_once "./inc/FrontendHeader.php";
 
               <div class="position-relative mt-4">
                 <img src="<?= "./uploads/aboutThumbnail/" . $getAbout['about_thumbnail'] ?>" class="img-fluid" alt="">
-                <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
+                <a href="<?= $getAbout['video_url'] ?>" class="glightbox pulsating-play-btn"></a>
               </div>
             </div>
           </div>
@@ -127,7 +127,7 @@ include_once "./inc/FrontendHeader.php";
     <!-- Stats Section -->
     <section id="stats" class="stats section dark-background">
 
-      <img src="assets/img/stats-bg.jpg" alt="" data-aos="fade-in">
+      <img src="<?= "./uploads/stats/" . $getStats['stats_img']?>" alt="" data-aos="fade-in">
 
       <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
 
@@ -135,28 +135,28 @@ include_once "./inc/FrontendHeader.php";
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="<?= $getStats['clients']?>" data-purecounter-duration="1" class="purecounter"></span>
               <p>Clients</p>
             </div>
           </div><!-- End Stats Item -->
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="<?= $getStats['projects']?>" data-purecounter-duration="1" class="purecounter"></span>
               <p>Projects</p>
             </div>
           </div><!-- End Stats Item -->
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="1" class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="<?= $getStats['support']?>" data-purecounter-duration="1" class="purecounter"></span>
               <p>Hours Of Support</p>
             </div>
           </div><!-- End Stats Item -->
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1" class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="<?= $getStats['workers']?>" data-purecounter-duration="1" class="purecounter"></span>
               <p>Workers</p>
             </div>
           </div><!-- End Stats Item -->
@@ -282,6 +282,34 @@ include_once "./inc/FrontendHeader.php";
                   $9.95
                 </p>
               </div><!-- Menu Item -->
+
+              
+               <?php
+              if ($resultMenu->num_rows > 0) {
+                          // Loop through all menu items
+                          while($row = mysqli_fetch_assoc($resultMenu)) {
+                              ?>
+                              <div class="col-lg-4 menu-item">
+                                  <a href="<?= "./uploads/menu/" . $row['menu_img'] ?>" class="glightbox">
+                                      <img src="<?= "./uploads/menu/" . $row['menu_img'] ?>" class="menu-img img-fluid" alt="">
+                                  </a>
+                                  <h4><?= $row['menu_name'] ?></h4>
+                                  <p class="ingredients">
+                                      <?= $row['menu_details'] ?>
+                                  </p>
+                                  <p class="price">
+                                      <?= '$' . $row['menu_price'] ?>
+                                  </p>
+                              </div><!-- Menu Item -->
+                              <?php
+                          }
+                      } else {
+                          echo "No menu items found!";
+                      }
+
+                      $conn->close();
+                  ?>
+               
 
             </div>
           </div><!-- End Starter Menu Content -->
