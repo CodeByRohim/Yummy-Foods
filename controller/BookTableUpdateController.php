@@ -28,12 +28,9 @@ if (empty($email)) {
 }
 
 // PHONE VALIDATION
-// if(empty($phone)) {
-  // $errors['phone'] = "Please enter your phone number.";
   if(strlen($phone) != 11){
     $errors['phone'] = "Invalid phone number.";
   }
-// }
 
 //DATE VALIDATION
 if (empty($date)) {
@@ -66,6 +63,9 @@ if (!empty($errors)) {
 } else {
   $sql = "INSERT INTO book_table ( fullname, email, phone, date, time, people, message) VALUES ('$fullname','$email','$phone','$date','$time','$people','$message')";
   $result = mysqli_query($conn, $sql);
+  $resulttest = mysqli_fetch_assoc($result);
+  var_dump($resulttest);
+  exit();
   $_SESSION['book_table']['fullname'] = $fullname;
   $_SESSION['book_table']['phone'] = $phone;
   $_SESSION['book_table']['email'] = $email;
@@ -75,6 +75,6 @@ if (!empty($errors)) {
   $_SESSION['book_table']['message'] = $message;
   $_SESSION['success'] = "Table booked successfully.";
 
-  header("Location: ../index.php#book-a-table")
+  header("Location: ../index.php#book-a-table");
 }
 ?>

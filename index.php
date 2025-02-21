@@ -8,10 +8,10 @@ include_once "./inc/FrontendHeader.php";
       <div class="container">
         <div class="row gy-4 justify-content-center justify-content-lg-between">
           <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-            <h1 data-aos="fade-up"><?= $getBanner['banner_heading']?><br></h1>
-            <p data-aos="fade-up" data-aos-delay="100"><?= $getBanner['banner_para']?></p>
+            <h1 data-aos="fade-up"><?= $getBanner['banner_heading'] ?? ''?><br></h1>
+            <p data-aos="fade-up" data-aos-delay="100"><?= $getBanner['banner_para'] ?? ''?></p>
             <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-              <a href="#book-a-table" class="btn-get-started">Booka a Table</a>
+              <a href="<?= $getBanner['cta_text'] ?? '#book-a-table'?>" class="btn-get-started"><?= $getBanner['cta_text'] ?? ''?></a>
               <a href="<?=  $getBanner["banner_url"] ?? ''?>" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
             </div>
           </div>

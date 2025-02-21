@@ -1,5 +1,7 @@
 <?php
 session_start();
+include "../database/env.php";
+
 $menu_name = $_REQUEST['menu_name'];
 $menu_price = $_REQUEST['menu_price'];
 $menu_details = $_REQUEST['menu_details'];
@@ -13,15 +15,12 @@ define('ALLOWED_EXTENSIONS',['jpg','png','jpeg']);
 define('MAX_UPLOAD_SIZE', 1024 * 1024 ); // 2MB
 
 
-include "../database/env.php";
 if($menu_img['size'] > 0){
   if(!in_array($extension, ALLOWED_EXTENSIONS)){
  $errors['menu_error'] = "Only" . ' ' . implode(', ', ALLOWED_EXTENSIONS) . ' ' . "file types are allowed.";
   } else if($menu_img['size'] > MAX_UPLOAD_SIZE){
  $errors['menu_error'] = "File size is too large.";
-  } else{
-
-  }
+  } 
   }
   
 

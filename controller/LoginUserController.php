@@ -28,9 +28,17 @@ if($result->num_rows == 0){
    $user = mysqli_fetch_assoc($result);
   if(!password_verify($password,$user['password'])){
    $errors['password'] = "Invalid password.";
-   
+  } else {
+    // COOKIE SETTING (Remember Me)
+    if (!empty($_REQUEST["remember"])) {
+        setcookie("user_email", $user['email'], time() + (86400 * 30), "/");
+    } else {
+        setcookie("user_email", "", time() - 3600, "/");
+    }
   }
 }
+
+
 if(count($errors) > 0){
     $_SESSION['errors'] = $errors;
     header("Location: ../login.php");
